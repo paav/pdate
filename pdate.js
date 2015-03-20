@@ -1,6 +1,4 @@
-var paav = paav || {};
-
-paav.date = (function($) {
+define(['jquery', 'paav/lib'], function($, plib) {
   var PDate = function(value) {
     this._date = new Date(value);
   };
@@ -62,7 +60,7 @@ paav.date = (function($) {
     var
       oDate = this._date,
       strDate,
-      pad = paav.lib.strPad,
+      pad = plib.strPad,
       year = oDate.getFullYear(),
       month = oDate.getMonth() + 1,
       date = oDate.getDate();
@@ -105,5 +103,4 @@ paav.date = (function($) {
   });
 
   return PDate;
-})(jQuery);
-
+});

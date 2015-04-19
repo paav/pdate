@@ -1,6 +1,6 @@
 var paav = paav || {};
 
-paav.date = (function($) {
+paav.date = (function() {
   var PDate = function(value) {
     this._date = new Date(value);
   };
@@ -105,5 +105,5 @@ paav.date = (function($) {
   });
 
   return PDate;
-})(jQuery);
+})();
 

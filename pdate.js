@@ -1,8 +1,11 @@
 var paav = paav || {};
 
-paav.date = (function() {
+paav.pdate = (function(p) {
   var PDate = function(value) {
-    this._date = new Date(value);
+    if (p.isUndef(value))
+      this._date = new Date();
+    else
+      this._date = new Date(value);
   };
 
   PDate._monthNames = [
@@ -59,33 +62,36 @@ paav.date = (function() {
   };
 
   PDate.prototype.format = function(format) {
-    var
-      oDate = this._date,
-      strDate,
-      pad = paav.lib.strPad,
-      year = oDate.getFullYear(),
-      month = oDate.getMonth() + 1,
-      date = oDate.getDate();
+    var oPDate  = this._date,
+        pad     = paav.lib.strPad,
 
-    switch (format) {
-      case 'yyyy-mm-dd':
-        strDate = [
-          year,
-          pad(month, 2, '0'),
-          pad(date, 2, '0'),
-        ].join('-');
-        break;
+        year    = oPDate.getFullYear(),
+        month   = oPDate.getMonth() + 1,
+        date    = oPDate.getDate(),
+        hours   = oPDate.getHours(),
+        minutes = oPDate.getMinutes(),
+        seconds = oPDate.getSeconds(),
 
-      case 'dd.mm.yyyy':
-        strDate = [
-          pad(date, 2, '0'),
-          pad(month, 2, '0'),
-          year,
-        ].join('.');
-        break;
-    }
+        replaces = {
+          'y':   year,
+          'MM':  pad(month, 2, 0),
+          'dd':  pad(date, 2, 0),
+          'HH':  pad(hours, 2, 0),
+          'mm':  pad(minutes, 2, 0),
+          'ss':  pad(seconds, 2, 0),
+        },
 
-    return strDate;
+        key,
+        formatted = format,
+        re;
+
+    for (key in replaces) {
+      if (replaces.hasOwnProperty(key)) 
+        re = new RegExp(key, 'g');
+        formatted = formatted.replace(re, replaces[key]);
+    } 
+
+    return formatted;
   };
 
   [
@@ -105,5 +111,5 @@ paav.date = (function() {
   });
 
   return PDate;
-})();
+})(paav.lib);
 
